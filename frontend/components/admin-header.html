@@ -1,0 +1,80 @@
+<header class="admin-navbar">
+  <div class="admin-container">
+    <div class="admin-logo">
+      <a href="admin-dashboard.html" style="text-decoration:none;color:white;">
+        <span class="blue">Flip</span><span class="yellow">cart</span> Admin
+      </a>
+    </div>
+
+    <nav class="admin-nav">
+      <a href="admin-dashboard.html">🏠 Dashboard</a>
+      <a href="admin-products.html">📦 Products</a>
+      <a href="admin-categories.html" class="active">🏷️ Categories</a>
+    </nav>
+
+    <div class="admin-profile-dropdown" id="adminProfileMenu">
+      <span id="adminName" class="profile-button">Admin ▼</span>
+      <div class="dropdown-content" id="adminDropdown">
+        <a href="#" id="logoutAdmin">🚪 Logout</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+.admin-navbar {
+  background-color: #2874f0;
+  color: white;
+  padding: 12px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.admin-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.admin-logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+.admin-nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 12px;
+  font-weight: 500;
+}
+.admin-nav a.active {
+  border-bottom: 2px solid #ffe500;
+}
+.admin-profile-dropdown {
+  position: relative;
+  cursor: pointer;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 30px;
+  background-color: #fff;
+  color: #000;
+  min-width: 160px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  z-index: 999;
+}
+.dropdown-content a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #212121;
+}
+.dropdown-content a:hover {
+  background-color: #f5f5f5;
+}
+.admin-profile-dropdown:hover .dropdown-content {
+  display: block;
+}
+</style>

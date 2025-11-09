@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Profile — Flipcart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { background:#f4f6f9; font-family:'Roboto',sans-serif; margin:0; }
+    .container { width:90%; max-width:820px; margin:40px auto; }
+    .card { background:#fff; padding:24px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.06); }
+    .top-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+    h2 { color:#2874f0; margin:0; }
+    .avatar-box { display:flex; gap:16px; align-items:center; }
+    .avatar { width:96px; height:96px; border-radius:50%; object-fit:cover; border:2px solid #ddeaff; }
+    label { display:block; margin-top:12px; font-weight:500; color:#333; }
+    input[type="text"], input[type="email"], textarea { width:100%; padding:10px 12px; border:1px solid #ddd; border-radius:6px; margin-top:6px; }
+    textarea { min-height:90px; resize:vertical; }
+    .row { display:flex; gap:12px; }
+    .col { flex:1; }
+    .btn { background:#2874f0; color:#fff; border:none; padding:10px 16px; border-radius:6px; cursor:pointer; font-weight:600; }
+    .btn.secondary { background:#fff; color:#2874f0; border:1px solid #2874f0; }
+    .actions { margin-top:18px; display:flex; gap:10px; justify-content:flex-end; }
+    @media(max-width:720px){ .top-row { flex-direction:column; align-items:flex-start; gap:12px; } .row { flex-direction:column; } }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="logo">
+        <a href="index.html" style="text-decoration:none;color:white;">
+          <span class="blue">Flip</span><span class="yellow">cart</span>
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="cart.html">Cart</a>
+        <a href="login.html">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <div class="top-row">
+        <h2>My Profile</h2>
+        <div class="avatar-box">
+          <img id="avatarPreview" class="avatar" src="assets/images/default-avatar.png" alt="avatar">
+        </div>
+      </div>
+
+      <form id="profileForm" enctype="multipart/form-data">
+        <input type="hidden" id="userId" />
+
+        <label for="name">Full name</label>
+        <input type="text" id="name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+
+        <div class="row">
+          <div class="col">
+            <label for="phone">Phone</label>
+            <input type="text" id="phone">
+          </div>
+          <div class="col">
+            <label for="pincode">Pincode</label>
+            <input type="text" id="pincode">
+          </div>
+        </div>
+
+        <label for="address">Address</label>
+        <textarea id="address"></textarea>
+
+        <label for="profileImage">Profile photo</label>
+        <input type="file" id="profileImage" accept="image/*">
+
+        <div class="actions">
+          <button type="button" class="btn secondary" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn" id="saveBtn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer style="text-align:center;padding:14px;color:#666;margin-top:30px;">© 2025 Flipcart</footer>
+
+  <script src="js/profiles.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+/* Flipcart Auth Pages — clean blue & white style */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f1f3f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.auth-container {
+  display: flex;
+  width: 850px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.auth-left {
+  background-color: #2874f0;
+  color: white;
+  padding: 50px 40px;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-left h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.auth-left p {
+  font-size: 15px;
+  color: #dbe4ff;
+}
+
+.auth-right {
+  width: 60%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-right h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #212121;
+}
+
+.auth-right input, select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.auth-right button {
+  width: 100%;
+  background-color: #fb641b;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.auth-right button:hover {
+  background-color: #e55b14;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.auth-footer a {
+  color: #2874f0;
+  text-decoration: none;
+}
+
+.error-msg {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.success-msg {
+  color: green;
+  font-size: 14px;
+  margin-bottom: 8px;
+  text-align: center;
+}

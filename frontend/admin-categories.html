@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Flipcart Admin — Categories</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { background:#f4f6f9; font-family:'Roboto',sans-serif; }
+    .admin-container { width:90%; max-width:1200px; margin:20px auto; }
+    h2 { color:#2874f0; margin-bottom:10px; }
+    .btn { background:#2874f0; color:#fff; border:none; padding:8px 15px; cursor:pointer; border-radius:4px; }
+    .btn:hover { background:#1f5fd1; }
+    .table-box { background:white; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); padding:20px; margin-top:15px; }
+    table { width:100%; border-collapse:collapse; margin-top:10px; }
+    th, td { padding:10px; text-align:left; border-bottom:1px solid #ddd; font-size:14px; }
+    th { background:#f0f0f0; color:#2874f0; }
+    td img { width:40px; height:40px; object-fit:cover; border-radius:4px; }
+    form { display:none; margin-top:20px; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+    input[type="text"], input[type="file"] { padding:8px; margin:6px 0; width:100%; max-width:400px; border:1px solid #ccc; border-radius:4px; }
+    .actions button { margin-right:5px; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="logo">
+        <a href="admin-dashboard.html" style="text-decoration:none;color:white;">
+          <span class="blue">Flip</span><span class="yellow">cart</span> Admin
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="admin-dashboard.html">Dashboard</a>
+        <a href="admin-products.html">Products</a>
+        <a href="admin-categories.html">Categories</a>
+        <a href="profile.html">Profile</a>
+        <a href="#" id="logoutBtn">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="admin-container">
+    <h2>Manage Categories</h2>
+    <button id="showAddBtn" class="btn">➕ Add New Category</button>
+
+    <form id="categoryForm" enctype="multipart/form-data">
+      <h3>Add / Edit Category</h3>
+      <label>Name:</label><br>
+      <input type="text" id="catName" placeholder="Enter category name" required><br>
+      <label>Emoji (optional):</label><br>
+      <input type="text" id="catEmoji" placeholder="e.g. 📱"><br>
+      <label>Icon (optional):</label><br>
+      <input type="file" id="catIcon" accept="image/*"><br>
+      <button type="submit" class="btn">Save</button>
+      <button type="button" id="cancelBtn" class="btn" style="background:#777;">Cancel</button>
+    </form>
+
+    <div class="table-box">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Emoji</th>
+            <th>Icon</th>
+            <th>Created</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="categoryTable">
+          <tr><td colspan="6">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="js/admin-categories.js"></script>
+  <script>
+    document.getElementById("logoutBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("customer");
+      alert("Logged out!");
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

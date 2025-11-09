@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flipcart Admin — All Orders</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .admin-header {background:#2874F0;color:#fff;padding:14px 0;}
+    .admin-header .container {display:flex;justify-content:space-between;align-items:center;}
+    table {width:100%;border-collapse:collapse;margin-top:20px;background:#fff;border-radius:8px;overflow:hidden;}
+    th,td {padding:10px;border-bottom:1px solid #eee;text-align:left;}
+    th {background:#f7f7f7;}
+    tr:hover {background:#fafafa;}
+    .order-item {display:flex;align-items:center;gap:10px;margin-top:6px;}
+    .order-item img {width:60px;height:50px;object-fit:cover;border-radius:6px;}
+    select {padding:4px;border-radius:4px;}
+  </style>
+</head>
+<body>
+  <header class="admin-header">
+    <div class="container">
+      <div class="logo"><span class="blue">Flip</span><span class="yellow">cart</span> Admin</div>
+      <nav>
+        <a href="admin-dashboard.html" style="color:#fff;margin-right:16px;">Dashboard</a>
+        <a href="admin-products.html" style="color:#fff;margin-right:16px;">Products</a>
+        <a href="admin-orders.html" style="color:#ffeb3b;">Orders</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding:30px 0;">
+    <h2>All Orders</h2>
+    <div id="ordersContainer">Loading orders...</div>
+  </main>
+
+  <footer><p>© 2025 Flipcart</p></footer>
+
+  <script src="js/admin_orders.js"></script>
+  <script src="js/profile-menu.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details — Flipcart</title>
+
+  <!-- ✅ Fonts + Favicon -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/icons/flipkart-favicon.png" />
+
+  <!-- ✅ Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    .product-container {
+      display: flex;
+      gap: 40px;
+      background: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      margin: 40px auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      max-width: 1200px;
+    }
+
+    /* Left image section */
+    .product-images {
+      flex: 1;
+      text-align: center;
+      border-right: 1px solid #f0f0f0;
+      padding-right: 30px;
+    }
+
+    .product-images img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 6px;
+      transition: transform 0.3s ease;
+      cursor: zoom-in;
+    }
+
+    .product-images img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Right details section */
+    .product-details {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 16px;
+    }
+
+    .product-details h1 {
+      font-size: 22px;
+      color: #212121;
+    }
+
+    .product-details .price {
+      font-size: 28px;
+      color: #388e3c;
+      font-weight: 700;
+    }
+
+    .product-details .desc {
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .buy-btn, .cart-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #fff;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .buy-btn {
+      background-color: #fb641b;
+    }
+
+    .cart-btn {
+      background-color: #ff9f00;
+    }
+
+    .buy-btn:hover {
+      background-color: #e85a12;
+    }
+
+    .cart-btn:hover {
+      background-color: #e59000;
+    }
+
+    .highlight-box {
+      background-color: #f1f3f6;
+      padding: 15px;
+      border-radius: 6px;
+    }
+
+    @media (max-width: 900px) {
+      .product-container {
+        flex-direction: column;
+        padding: 20px;
+      }
+      .product-images {
+        border: none;
+        padding-right: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ✅ Header -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="logo">
+        <a href="index.html" style="text-decoration:none;color:white;">
+          <span class="blue">Flip</span><span class="yellow">cart</span>
+        </a>
+        <div style="font-size:10px;color:#ffe500;margin-top:-4px;">
+          Explore&nbsp;<span style="color:#ffe500;">Plus ✨</span>
+        </div>
+      </div>
+
+      <div class="search-bar">
+        <input id="searchInput" type="text" placeholder="Search for products, brands and more" />
+        <button id="searchBtn">
+          <img src="assets/icons/search.svg" width="18" height="18" alt="search" />
+        </button>
+      </div>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="cart.html">🛒 Cart</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ✅ Product Details Container -->
+  <section class="product-container" id="productSection">
+    <div class="product-images">
+      <img id="productImage" src="assets/images/products/placeholder.png" alt="Product Image">
+    </div>
+
+    <div class="product-details">
+      <h1 id="productName">Product Name</h1>
+      <div class="price" id="productPrice">₹ 0.00</div>
+      <div class="desc" id="productDesc">Product description goes here...</div>
+
+      <div class="btn-row">
+        <button class="cart-btn" id="addCartBtn">Add to Cart</button>
+        <button class="buy-btn" id="buyNowBtn">Buy Now</button>
+      </div>
+
+      <div class="highlight-box">
+        <strong>Highlights:</strong>
+        <ul style="margin:10px 0 0 20px;" id="productHighlights">
+          <li>Free delivery within 3–5 days</li>
+          <li>7 days replacement policy</li>
+          <li>Secure packaging by Flipcart</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✅ Footer -->
+  <footer>
+    <p>© 2025 Flipcart · Built by Vinu Raval</p>
+  </footer>
+
+  <script src="js/product.js"></script>
+  <script src="js/profile-menu.js"></script>
+
+</body>
+</html>

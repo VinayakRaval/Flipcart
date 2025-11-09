@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout — Flipcart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="logo">
+        <a href="index.html" style="text-decoration:none;color:white;">
+          <span class="blue">Flip</span><span class="yellow">cart</span>
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="cart.html">Cart</a>
+        <a href="login.html">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="container checkout">
+    <h2>Checkout Summary</h2>
+
+    <div class="checkout-wrapper">
+      <div class="checkout-left">
+        <h3>Delivery Address</h3>
+        <form id="addressForm">
+          <input type="text" id="name" placeholder="Full Name" required />
+          <input type="text" id="address" placeholder="Address" required />
+          <input type="text" id="city" placeholder="City" required />
+          <input type="text" id="pincode" placeholder="Pincode" required />
+          <input type="text" id="phone" placeholder="Phone Number" required />
+        </form>
+      </div>
+
+      <div class="checkout-right">
+        <h3>Order Summary</h3>
+        <table class="summary-table" id="summaryTable">
+          <tr><td colspan="3">Loading your order...</td></tr>
+        </table>
+
+        <div class="total-box">
+          <h4>Total: <span id="totalPrice">₹0</span></h4>
+          <button id="placeOrderBtn">Place Order</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Flipcart · Checkout Page</p>
+  </footer>
+
+  <script src="js/checkout.js"></script>
+</body>
+</html>

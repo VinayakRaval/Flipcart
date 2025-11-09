@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signup — Flipcart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="icon" href="assets/icons/flipkart-favicon.png" />
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-left">
+      <h1>Looks like you're new here!</h1>
+      <p>Sign up to get started and enjoy great deals.</p>
+    </div>
+
+    <div class="auth-right">
+      <h2>Create Account</h2>
+      <div id="msg"></div>
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email Address" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <select id="role">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+
+      <button id="registerBtn">Sign Up</button>
+      <div class="auth-footer">
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API = "/flipcart/backend/auth/register.php";
+
+    document.getElementById("registerBtn").addEventListener("click", async () => {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const role = document.getElementById("role").value;
+      const msg = document.getElementById("msg");
+
+      if (!name || !email || !password) {
+        msg.innerHTML = '<p class="error-msg">Please fill all fields.</p>';
+        return;
+      }
+
+      try {
+        const res = await fetch(API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password, role }),
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          msg.innerHTML = '<p class="success-msg">Account created successfully!</p>';
+          setTimeout(() => (window.location.href = "login.html"), 1000);
+        } else {
+          msg.innerHTML = `<p class="error-msg">${data.error || "Registration failed"}</p>`;
+        }
+      } catch {
+        msg.innerHTML = '<p class="error-msg">Network error</p>';
+      }
+    });
+  </script>
+</body>
+</html>

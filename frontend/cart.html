@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Cart — Flipcart</title>
+
+  <!-- ✅ Fonts & Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    body {
+      background: #f1f3f6;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+    }
+
+    .cart-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 90%;
+      max-width: 1200px;
+      margin: 40px auto;
+      gap: 20px;
+    }
+
+    /* --- Left Section: Cart Table --- */
+    .cart-table {
+      flex: 2.2;
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .cart-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    th {
+      background: #fafafa;
+      font-weight: 600;
+      color: #555;
+    }
+    .cart-table img {
+      width: 70px;
+      border-radius: 6px;
+    }
+    .product-name {
+      font-weight: 500;
+      color: #212121;
+    }
+    .price {
+      color: #388e3c;
+      font-weight: 500;
+    }
+
+    /* --- Right Section: Summary Box --- */
+    .cart-summary {
+      flex: 0.8;
+      background: #fff;
+      border-radius: 6px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      height: fit-content;
+    }
+    .cart-summary h3 {
+      margin-top: 0;
+      color: #2874f0;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      font-size: 15px;
+    }
+    .summary-total {
+      border-top: 1px solid #ddd;
+      margin-top: 15px;
+      padding-top: 15px;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .checkout-btn {
+      width: 100%;
+      background: #fb641b;
+      border: none;
+      color: #fff;
+      padding: 12px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .checkout-btn:hover {
+      background: #e65c00;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 50px;
+      color: #555;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 100%;
+    }
+
+    @media(max-width:768px){
+      .cart-container{flex-direction:column;}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ✅ Header -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="logo">
+        <a href="index.html" style="text-decoration:none;color:white;">
+          <span class="blue">Flip</span><span class="yellow">cart</span>
+        </a>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="cart.html" style="font-weight:600;">🛒 Cart</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ✅ Cart Content -->
+  <div class="cart-container">
+    <div class="cart-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody id="cartItems">
+          <tr><td colspan="5">Loading your cart...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cart-summary">
+      <h3>Price Details</h3>
+      <div class="summary-row"><span>Subtotal</span><span id="subtotal">₹0.00</span></div>
+      <div class="summary-row"><span>Shipping</span><span>FREE</span></div>
+      <div class="summary-row summary-total"><span>Total</span><span id="grandTotal">₹0.00</span></div>
+      <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <footer style="text-align:center;padding:15px;background:#2874f0;color:white;margin-top:30px;">
+    © 2025 Flipcart — All Rights Reserved
+  </footer>
+
+  <script src="js/cart.js"></script>
+</body>
+</html>

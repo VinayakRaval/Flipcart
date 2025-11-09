@@ -1,0 +1,136 @@
+/* === Profile Dropdown Styling === */
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  color: white;
+  font-weight: 500;
+  margin-left: 20px;
+}
+
+.profile-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.profile-dropdown #profileName::after {
+  content: " ▼";
+  font-size: 12px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 180px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  border-radius: 6px;
+  z-index: 1000;
+  right: 0;
+  top: 28px;
+}
+
+.dropdown-content a {
+  color: #212121;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+}
+
+.dropdown-content a:hover {
+  background-color: #f5f5f5;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.profile-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 30px;
+  background-color: white;
+  min-width: 180px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #212121;
+  font-size: 14px;
+}
+
+.dropdown-content a:hover {
+  background: #f1f3f6;
+}
+/* === Account / Profile Dropdown === */
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+  color: white;
+  font-weight: 500;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.profile-button {
+  padding: 6px 8px;
+  border-radius: 4px;
+}
+
+.profile-button:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 36px;
+  background-color: #fff;
+  min-width: 180px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  z-index: 999;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 15px;
+  color: #212121;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-content a:hover {
+  background-color: #f5f5f5;
+}
+
+/* ✅ Show on hover (backup if JS fails) */
+.profile-dropdown:hover .dropdown-content {
+  display: block;
+}
