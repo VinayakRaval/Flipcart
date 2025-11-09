@@ -59,23 +59,23 @@ document.addEventListener("DOMContentLoaded",()=>{
 
   <div class="card">
     <form id="productForm" enctype="multipart/form-data">
-      <input type="hidden" id="prodId" />
+      <input type="hidden" id="prodId" name="prodId" />
       <div class="two-col">
         <div>
           <label>Name</label>
-          <input id="prodName" required>
+          <input id="prodName" name="prodName" required>
           <label>Category</label>
-          <select id="prodCategory"></select>
+          <select id="prodCategory" name="prodCategory"></select>
           <label>Price (₹)</label>
-          <input id="prodPrice" type="number" step="0.01" required>
+          <input id="prodPrice" name="prodPrice" type="number" step="0.01" required>
           <label>Stock</label>
-          <input id="prodStock" type="number" required>
+          <input id="prodStock" name="prodStock" type="number" value="0" required>
         </div>
         <div>
           <label>Description</label>
-          <textarea id="prodDesc" rows="5"></textarea>
+          <textarea id="prodDesc" name="prodDesc" rows="5"></textarea>
           <label>Image</label>
-          <input id="prodImage" type="file" accept="image/*">
+          <input id="prodImage" name="prodImage" type="file" accept="image/*">
           <div style="margin-top:8px;">
             <button type="submit" style="background:var(--flipkart-blue);color:#fff;padding:10px 12px;border-radius:6px;border:none;">Save</button>
             <button type="button" id="cancelProd" style="background:#f3f3f3;margin-left:8px;padding:10px 12px;border-radius:6px;border:none;">Cancel</button>
@@ -85,7 +85,9 @@ document.addEventListener("DOMContentLoaded",()=>{
     </form>
 
     <table class="table" style="margin-top:12px;">
-      <thead><tr><th>ID</th><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead>
+      <thead>
+        <tr><th>ID</th><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Action</th></tr>
+      </thead>
       <tbody id="productsList"><tr><td colspan="7">Loading...</td></tr></tbody>
     </table>
   </div>

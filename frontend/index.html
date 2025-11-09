@@ -5,12 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Flipcart — Home</title>
 
-  <!-- ✅ Flipkart Font + Favicon -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="assets/icons/flipkart-favicon.png" />
-
-  <!-- ✅ Main CSS -->
   <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    /* ✅ Marquee Category Bar */
+    .category-marquee {
+      background: #fff;
+      padding: 15px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+    .category-track {
+      display: inline-flex;
+      animation: scrollLeft 20s linear infinite;
+      gap: 40px;
+      align-items: center;
+      padding: 0 20px;
+    }
+    .category-item {
+      text-align: center;
+      cursor: pointer;
+    }
+    .category-item img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 6px;
+    }
+    .category-item span {
+      font-size: 14px;
+      font-weight: 500;
+      color: #212121;
+    }
+    @keyframes scrollLeft {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .products .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+      gap: 20px;
+    }
+  </style>
 </head>
 <body>
   <!-- ✅ Header -->
@@ -31,16 +73,17 @@
       </div>
 
       <nav class="nav-links">
-        <a href="login.html">Logout</a>
+        <a href="profile.html">Profile</a>
+        <a href="orders.html">My Orders</a>
         <a href="cart.html">🛒 Cart</a>
+        <a href="login.html" id="logoutBtn">Logout</a>
       </nav>
     </div>
   </header>
 
-  <!-- ✅ Dynamic Category Grid -->
-  <section class="category-grid container" id="categoryContainer">
-    <h2>Shop by Category</h2>
-    <div id="categoryGrid" class="grid category-cards">
+  <!-- ✅ Marquee Categories -->
+  <section class="category-marquee">
+    <div id="categoryTrack" class="category-track">
       <p>Loading categories...</p>
     </div>
   </section>
@@ -49,21 +92,19 @@
   <section class="hero-banner">
     <h1>Big Savings on Top Deals</h1>
     <p>Electronics · Fashion · Home · Appliances</p>
-    <button onclick="window.location.href='index.html'">Shop Now</button>
+    <button onclick="window.location.href='cart.html'">Shop Now</button>
   </section>
 
   <!-- ✅ Featured Products -->
   <section class="container products">
-    <h2>Featured Products</h2>
-    <div class="grid" id="productList"></div>
+    <h2 id="productTitle">Featured Products</h2>
+    <div class="grid" id="productList"><p>Loading products...</p></div>
   </section>
 
-  <!-- ✅ Footer -->
   <footer>
     <p>© 2025 Flipcart · Built by Vinu</p>
   </footer>
 
-  <!-- ✅ Scripts -->
   <script src="js/main.js"></script>
 </body>
 </html>

@@ -1,71 +1,59 @@
-const API_BASE = "/flipcart/backend";
+const API_ORDERS = "http://localhost/flipcart/backend/orders/get_user_orders.php";
 
-async function loadOrders() {
+document.addEventListener("DOMContentLoaded", () => {
+  const customer = JSON.parse(localStorage.getItem("customer") || "null");
+  if (!customer || !customer.id) {
+    alert("Please log in first!");
+    window.location.href = "login.html";
+    return;
+  }
+
+  loadOrders(customer.id);
+
+  document.getElementById("logoutBtn").addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("customer");
+    window.location.href = "login.html";
+  });
+});
+
+async function loadOrders(userId) {
   const list = document.getElementById("ordersList");
-  list.innerHTML = "<p>Loading your orders...</p>";
-
+  list.innerHTML = "<p>Loading...</p>";
   try {
-    const res = await fetch(`${API_BASE}/orders/get_user_orders.php`, {
-      credentials: "same-origin",
-    });
+    const res = await fetch(`${API_ORDERS}?user_id=${userId}`);
     const data = await res.json();
-
-    if (!res.ok) {
-      list.innerHTML = `<p>${data.error || "Failed to load orders."}</p>`;
-      return;
-    }
+    if (!res.ok || !data.success) throw new Error(data.error || "Failed");
 
     const orders = data.orders || [];
     if (!orders.length) {
-      list.innerHTML = "<p>You have no orders yet.</p>";
+      list.innerHTML = "<p>No orders found.</p>";
       return;
     }
 
-    list.innerHTML = orders.map(renderOrderCard).join("");
+    list.innerHTML = orders.map(o => `
+      <div class="order-card">
+        <div class="order-header">
+          <span>Order #${o.id}</span>
+          <span class="order-status">${o.status || "Pending"}</span>
+        </div>
+        ${(o.items || []).map(i => `
+          <div class="order-item">
+            <img src="http://localhost/flipcart/backend/uploads/${i.image}" alt="${i.name}">
+            <div>
+              <div><b>${i.name}</b></div>
+              <div>Qty: ${i.quantity}</div>
+              <div>₹${i.price}</div>
+            </div>
+          </div>
+        `).join('')}
+        <div style="text-align:right;font-weight:600;margin-top:10px;">
+          Total: ₹${o.total_amount}
+        </div>
+      </div>
+    `).join('');
   } catch (err) {
-    list.innerHTML = "<p>Network error while loading orders.</p>";
+    console.error(err);
+    list.innerHTML = "<p>Error loading orders. Please try again later.</p>";
   }
 }
-
-function renderOrderCard(o) {
-  const itemsHtml = o.items
-    .map(
-      (it) => `
-      <div class="item-row">
-        <img src="${it.image_url || "assets/images/products/placeholder.png"}" alt="">
-        <div>
-          <h4>${escapeHtml(it.name)}</h4>
-          <span>₹${Number(it.price).toFixed(2)} × ${it.quantity}</span>
-        </div>
-      </div>`
-    )
-    .join("");
-
-  return `
-    <div class="order-card">
-      <div class="order-header">
-        <h3>Order #${o.order_id}</h3>
-        <span>${new Date(o.created_at).toLocaleDateString()}</span>
-      </div>
-
-      <div class="order-items">${itemsHtml}</div>
-
-      <div class="order-footer">
-        <span>Status: <span class="status">${escapeHtml(o.status)}</span></span><br>
-        <span>Total: ₹${Number(o.total_amount).toFixed(2)}</span><br>
-        ${o.shipping_address ? `<span>Address: ${escapeHtml(o.shipping_address)}</span>` : ""}
-      </div>
-    </div>`;
-}
-
-function escapeHtml(s) {
-  return String(s || "").replace(/[&<>"']/g, (c) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  }[c]));
-}
-
-document.addEventListener("DOMContentLoaded", loadOrders);

@@ -1,37 +1,48 @@
 <?php
+// backend/admin/add_product.php
+header("Content-Type: application/json");
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-session_start();
 require_once(__DIR__ . '/../config/db_connect.php');
 require_once(__DIR__ . '/../includes/helpers.php');
-require_once(__DIR__ . '/../includes/auth_guard.php');
 
-require_admin();
+// ✅ Capture POST data safely
+$name       = trim($_POST['prodName'] ?? '');
+$category   = trim($_POST['prodCategory'] ?? '');
+$price      = trim($_POST['prodPrice'] ?? '');
+$stock      = trim($_POST['prodStock'] ?? '0');
+$description = trim($_POST['prodDesc'] ?? '');
 
-$name = trim($_POST['name'] ?? '');
-$category = trim($_POST['category'] ?? 'General');
-$price = floatval($_POST['price'] ?? 0);
-$stock = intval($_POST['stock'] ?? 0);
-$desc = trim($_POST['description'] ?? '');
+// ✅ Validate
+if ($name === '') json_error("Product name required");
+if ($category === '') json_error("Category required");
+if ($price === '' || !is_numeric($price)) json_error("Valid price required");
 
-if (!$name) json_error("Product name required");
+// ✅ Handle Image Upload
+$image_name = null;
+if (!empty($_FILES['prodImage']['name'])) {
+    $upload_dir = __DIR__ . '/../uploads/';
+    if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
 
-$image = null;
-if (!empty($_FILES['image']['name'])) {
-    $dir = __DIR__ . '/../uploads/';
-    if (!is_dir($dir)) mkdir($dir, 0777, true);
-    $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
-    $allowed = ['png','jpg','jpeg','webp','gif'];
+    $ext = strtolower(pathinfo($_FILES['prodImage']['name'], PATHINFO_EXTENSION));
+    $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
     if (!in_array($ext, $allowed)) json_error("Invalid image type");
-    $image = uniqid('prod_') . '.' . $ext;
-    move_uploaded_file($_FILES['image']['tmp_name'], $dir . $image);
+
+    $image_name = uniqid() . '_' . basename($_FILES['prodImage']['name']);
+    $target = $upload_dir . $image_name;
+    if (!move_uploaded_file($_FILES['prodImage']['tmp_name'], $target)) {
+        json_error("Image upload failed");
+    }
 }
 
+// ✅ Insert product
 $stmt = $conn->prepare("INSERT INTO products (name, category, price, stock, description, image) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("ssdi ss", $name, $category, $price, $stock, $desc, $image);
-$stmt = $conn->prepare("INSERT INTO products (name, category, price, stock, description, image) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("ssdiss", $name, $category, $price, $stock, $desc, $image);
+$stmt->bind_param("ssdiss", $name, $category, $price, $stock, $description, $image_name);
 
-if ($stmt->execute()) json_success(["message" => "Product added"]);
-else json_error("Error: " . $conn->error);
+if ($stmt->execute()) {
+    json_success(["message" => "✅ Product added successfully"]);
+} else {
+    json_error("Database error: " . $conn->error);
+}
+?>

@@ -2,11 +2,129 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Checkout — Flipcart</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      background: #f1f3f6;
+      font-family: "Roboto", sans-serif;
+      margin: 0;
+    }
+
+    .checkout-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 90%;
+      max-width: 1100px;
+      margin: 40px auto;
+      gap: 25px;
+    }
+
+    /* Left Section */
+    .address-form {
+      flex: 1.2;
+      background: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .address-form h2 {
+      color: #2874f0;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    .address-form label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .address-form input, .address-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    /* Right Section */
+    .order-summary {
+      flex: 0.8;
+      background: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+    }
+
+    .order-summary h3 {
+      color: #2874f0;
+      margin-top: 0;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+    }
+
+    .order-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #f2f2f2;
+      padding: 10px 0;
+    }
+
+    .order-item img {
+      width: 70px;
+      height: 70px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .order-item .info {
+      flex: 1;
+    }
+
+    .total-box {
+      border-top: 1px solid #ddd;
+      padding-top: 12px;
+      margin-top: 10px;
+      font-weight: 600;
+      font-size: 17px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .place-order-btn {
+      width: 100%;
+      background: #fb641b;
+      border: none;
+      color: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    .place-order-btn:hover {
+      background: #e65c00;
+    }
+
+    @media (max-width: 768px) {
+      .checkout-container {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <header class="navbar">
     <div class="container nav-inner">
@@ -15,44 +133,51 @@
           <span class="blue">Flip</span><span class="yellow">cart</span>
         </a>
       </div>
-      <nav class="nav-links">
+      <nav>
+        <a href="index.html">Home</a>
         <a href="cart.html">Cart</a>
-        <a href="login.html">Logout</a>
+        <a href="orders.html">My Orders</a>
       </nav>
     </div>
   </header>
 
-  <section class="container checkout">
-    <h2>Checkout Summary</h2>
+  <div class="checkout-container">
+    <!-- Address Section -->
+    <div class="address-form">
+      <h2>Delivery Address</h2>
+      <form id="checkoutForm">
+        <label>Full Name</label>
+        <input id="fullName" required />
 
-    <div class="checkout-wrapper">
-      <div class="checkout-left">
-        <h3>Delivery Address</h3>
-        <form id="addressForm">
-          <input type="text" id="name" placeholder="Full Name" required />
-          <input type="text" id="address" placeholder="Address" required />
-          <input type="text" id="city" placeholder="City" required />
-          <input type="text" id="pincode" placeholder="Pincode" required />
-          <input type="text" id="phone" placeholder="Phone Number" required />
-        </form>
-      </div>
+        <label>Address</label>
+        <textarea id="address" required></textarea>
 
-      <div class="checkout-right">
-        <h3>Order Summary</h3>
-        <table class="summary-table" id="summaryTable">
-          <tr><td colspan="3">Loading your order...</td></tr>
-        </table>
+        <label>City</label>
+        <input id="city" required />
 
-        <div class="total-box">
-          <h4>Total: <span id="totalPrice">₹0</span></h4>
-          <button id="placeOrderBtn">Place Order</button>
-        </div>
+        <label>Pincode</label>
+        <input id="pincode" type="number" required />
+
+        <label>Phone Number</label>
+        <input id="phone" type="number" required />
+
+        <button type="submit" class="place-order-btn">Place Order</button>
+      </form>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <h3>Order Summary</h3>
+      <div id="summaryItems"><p>Loading your cart...</p></div>
+      <div class="total-box">
+        <span>Total:</span>
+        <span id="totalAmount">₹0.00</span>
       </div>
     </div>
-  </section>
+  </div>
 
-  <footer>
-    <p>© 2025 Flipcart · Checkout Page</p>
+  <footer style="text-align:center;padding:15px;background:#2874f0;color:white;">
+    © 2025 Flipcart — All Rights Reserved
   </footer>
 
   <script src="js/checkout.js"></script>
