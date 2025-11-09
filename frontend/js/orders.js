@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadOrders(userId) {
   const list = document.getElementById("ordersList");
   list.innerHTML = "<p>Loading...</p>";
+
   try {
     const res = await fetch(`${API_ORDERS}?user_id=${userId}`);
     const data = await res.json();
@@ -37,19 +38,19 @@ async function loadOrders(userId) {
           <span>Order #${o.id}</span>
           <span class="order-status">${o.status || "Pending"}</span>
         </div>
-        ${(o.items || []).map(i => `
-          <div class="order-item">
-            <img src="http://localhost/flipcart/backend/uploads/${i.image}" alt="${i.name}">
-            <div>
-              <div><b>${i.name}</b></div>
-              <div>Qty: ${i.quantity}</div>
-              <div>₹${i.price}</div>
+        <div class="order-items">
+          ${(o.items || []).map(i => `
+            <div class="order-item">
+              <img src="http://localhost/flipcart/backend/uploads/${i.image}" alt="${i.name}">
+              <div class="info">
+                <b>${i.name}</b><br>
+                <small>Qty: ${i.quantity}</small><br>
+                <span>₹${(i.price * i.quantity).toFixed(2)}</span>
+              </div>
             </div>
-          </div>
-        `).join('')}
-        <div style="text-align:right;font-weight:600;margin-top:10px;">
-          Total: ₹${o.total_amount}
+          `).join('')}
         </div>
+        <div class="order-total">Total: ₹${o.total_amount}</div>
       </div>
     `).join('');
   } catch (err) {
