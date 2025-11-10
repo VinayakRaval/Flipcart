@@ -1,84 +1,58 @@
-// frontend/js/profile.js
-const API_BASE = "/flipcart/backend";
+const UPDATE_API = "http://localhost/flipcart/backend/profile/update_user.php";
+const IMG_BASE = "http://localhost/flipcart/backend/uploads/profiles/";
 
-async function loadProfile() {
-  const msgEl = document.getElementById("profileMsg");
-  msgEl.textContent = "";
-  try {
-    const res = await fetch(`${API_BASE}/profile/get_user.php`, { credentials: 'same-origin' });
-    const data = await res.json();
-    if (!res.ok) {
-      msgEl.style.color = 'red';
-      msgEl.textContent = data.error || 'Failed to load profile';
-      if (data.error && data.error.toLowerCase().includes('login')) {
-        setTimeout(()=> window.location.href = 'login.html', 800);
-      }
-      return;
-    }
-    const user = data.user;
-    document.getElementById("displayName").value = user.name || '';
-    document.getElementById("emailField").value = user.email || '';
-  } catch (e) {
-    msgEl.style.color = 'red';
-    msgEl.textContent = 'Network error';
-  }
-}
-
-async function saveProfile() {
-  const msgEl = document.getElementById("profileMsg");
-  msgEl.textContent = '';
-  const name = document.getElementById("displayName").value.trim();
-  const current = document.getElementById("currentPassword").value;
-  const neu = document.getElementById("newPassword").value;
-
-  if (!name) {
-    msgEl.style.color = 'red';
-    msgEl.textContent = 'Name is required';
+document.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem("customer") || "null");
+  if (!user || !user.id) {
+    alert("Please log in first!");
+    window.location.href = "login.html";
     return;
   }
 
-  // Prepare payload
-  const payload = { name };
+  // Fill form
+  document.getElementById("name").value = user.name || "";
+  document.getElementById("email").value = user.email || "";
+  document.getElementById("mobile").value = user.mobile || "";
+  document.getElementById("address").value = user.address || "";
+  document.getElementById("profileName").textContent = user.name;
+  document.getElementById("profileEmail").textContent = user.email;
 
-  // If user wants to change password, require current+new
-  if (current || neu) {
-    if (!current) { msgEl.style.color='red'; msgEl.textContent='Enter current password to change it.'; return; }
-    if (!neu || neu.length < 6) { msgEl.style.color='red'; msgEl.textContent='New password must be at least 6 characters.'; return; }
-    payload.current_password = current;
-    payload.new_password = neu;
+  if (user.profile_image) {
+    document.getElementById("profileImage").src = IMG_BASE + user.profile_image;
   }
 
-  try {
-    const res = await fetch(`${API_BASE}/profile/update_user.php`, {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json();
-    if (res.ok) {
-      msgEl.style.color = 'green';
-      msgEl.textContent = data.message || 'Profile updated';
-      // clear password fields
-      document.getElementById("currentPassword").value = '';
-      document.getElementById("newPassword").value = '';
-      // update localStorage customer name if present
-      try {
-        const c = JSON.parse(localStorage.getItem('customer') || 'null');
-        if (c) { c.name = name; localStorage.setItem('customer', JSON.stringify(c)); }
-      } catch(e){}
-      // update profile-menu display name if present
-      const profileName = document.getElementById('profileName');
-      if (profileName) profileName.textContent = (name.split(' ')[0]||name);
-    } else {
-      msgEl.style.color = 'red';
-      msgEl.textContent = data.error || 'Update failed';
+  // Show small profile image in navbar
+  const userBox = document.getElementById("userProfileBox");
+  userBox.innerHTML = `
+    <img src="${user.profile_image ? IMG_BASE + user.profile_image : 'assets/icons/avatar.png'}"
+         style="width:35px;height:35px;border-radius:50%;vertical-align:middle;margin-right:8px;">
+    <span style="color:white;font-weight:500;">${user.name}</span>
+  `;
+
+  // Save update
+  document.getElementById("profileForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const fd = new FormData();
+    fd.append("id", user.id);
+    fd.append("name", document.getElementById("name").value.trim());
+    fd.append("mobile", document.getElementById("mobile").value.trim());
+    fd.append("address", document.getElementById("address").value.trim());
+    const file = document.getElementById("profilePic").files[0];
+    if (file) fd.append("profile_image", file);
+
+    try {
+      const res = await fetch(UPDATE_API, { method: "POST", body: fd });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error);
+
+      const updatedUser = { ...user, ...data.user };
+      localStorage.setItem("customer", JSON.stringify(updatedUser));
+      alert("Profile updated successfully!");
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+      alert("Error updating profile.");
     }
-  } catch (e) {
-    msgEl.style.color = 'red';
-    msgEl.textContent = 'Network error';
-  }
-}
-
-document.getElementById('saveProfile')?.addEventListener('click', saveProfile);
-document.addEventListener('DOMContentLoaded', loadProfile);
+  });
+});

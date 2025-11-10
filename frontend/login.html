@@ -3,70 +3,186 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login — Flipcart</title>
+  <title>Flipcart — Login</title>
+
+  <!-- ✅ Fonts + Styles -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/auth.css" />
-  <link rel="icon" href="assets/icons/flipkart-favicon.png" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f1f3f6;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .auth-container {
+      display: flex;
+      width: 800px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .left-panel {
+      flex: 1;
+      background: #2874f0;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .left-panel h2 {
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .left-panel p {
+      color: #ddd;
+      text-align: center;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .right-panel {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .right-panel h3 {
+      margin-bottom: 25px;
+      color: #212121;
+      font-weight: 600;
+    }
+
+    label {
+      font-weight: 500;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #fb641b;
+      border: none;
+      color: white;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover { background: #e65c00; }
+
+    .extra-links {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .extra-links a {
+      color: #2874f0;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    @media(max-width:768px){
+      .auth-container{flex-direction:column;width:95%;}
+      .left-panel{padding:20px;}
+    }
+  </style>
 </head>
+
 <body>
   <div class="auth-container">
-    <div class="auth-left">
-      <h1>Login</h1>
-      <p>Get access to your Orders, Wishlist and Recommendations.</p>
+    <div class="left-panel">
+      <h2>Login</h2>
+      <p>Get access to your Orders, Wishlist, and Recommendations.</p>
     </div>
 
-    <div class="auth-right">
-      <h2>Welcome Back!</h2>
-      <div id="msg"></div>
-      <input type="email" id="email" placeholder="Enter your email" required />
-      <input type="password" id="password" placeholder="Enter password" required />
+    <div class="right-panel">
+      <h3>Welcome Back!</h3>
+      <form id="loginForm">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required />
 
-      <button id="loginBtn">Login</button>
-      <div class="auth-footer">
-        <p>New to Flipcart? <a href="register.html">Create an account</a></p>
-      </div>
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required />
+
+        <button type="submit">Login</button>
+
+        <div class="extra-links">
+          <a href="forgot-password.html">Forgot Password?</a>
+        </div>
+
+        <div class="extra-links" style="margin-top:5px;">
+          <a href="signup.html">New to Flipcart? Create an account</a>
+        </div>
+      </form>
     </div>
   </div>
 
   <script>
-    const API = "/flipcart/backend/auth/login.php";
+    const LOGIN_API = "http://localhost/flipcart/backend/auth/login.php";
 
-    document.getElementById("loginBtn").addEventListener("click", async () => {
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value.trim();
-      const msg = document.getElementById("msg");
 
       if (!email || !password) {
-        msg.innerHTML = '<p class="error-msg">Please enter both email and password.</p>';
+        alert("Please enter both email and password.");
         return;
       }
 
       try {
-        const res = await fetch(API, {
+        const res = await fetch(LOGIN_API, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-          credentials: "same-origin"
+          body: JSON.stringify({ email, password })
         });
-        const data = await res.json();
 
-        if (res.ok) {
-          msg.innerHTML = '<p class="success-msg">Login successful!</p>';
+        const data = await res.json();
+        if (data.success) {
+          alert("✅ Login successful!");
           localStorage.setItem("customer", JSON.stringify(data.user));
-          // redirect based on role
+
+          // Redirect based on role
           if (data.user.role === "admin") {
             window.location.href = "admin-dashboard.html";
           } else {
             window.location.href = "index.html";
           }
         } else {
-          msg.innerHTML = `<p class="error-msg">${data.error || "Invalid login"}</p>`;
+          alert(`⚠️ ${data.error || "Invalid credentials"}`);
         }
-      } catch {
-        msg.innerHTML = '<p class="error-msg">Network error</p>';
+      } catch (err) {
+        console.error("Login error:", err);
+        alert("⚠️ Network error — please check XAMPP backend");
       }
     });
   </script>
-
 </body>
 </html>

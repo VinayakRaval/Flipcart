@@ -1,124 +1,77 @@
 /**
- * Flipcart Admin Dashboard JS (Final)
- * ✅ Shows admin name, profile photo
- * ✅ Loads stats, recent products, recent categories
+ * Flipcart Admin Dashboard JS — Fixed Version
+ * Loads dashboard stats, recent products, and recent categories
  */
 
-const API_ADMIN = "http://localhost/flipcart/backend/admin";
-const API_STATS = `${API_ADMIN}/get_stats.php`;
-const API_PRODUCTS = `${API_ADMIN}/get_products.php`;
-const API_CATEGORIES = `${API_ADMIN}/get_categories.php`;
+const BASE_API = "http://localhost/flipcart/backend/admin";
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const admin = JSON.parse(localStorage.getItem("customer") || "null");
-
-  // ✅ Display Admin Name & Photo
-  if (admin) {
-    document.getElementById("adminName").textContent = admin.name || "Admin";
-    document.getElementById("adminNameTitle").textContent = admin.name || "Admin";
-
-    const photo = document.getElementById("adminPhoto");
-    if (photo && admin.profile_image) {
-      photo.src = `http://localhost/flipcart/backend/uploads/profiles/${admin.profile_image}`;
-    }
-  }
-
-  // ✅ Logout
-  const logoutBtn = document.getElementById("logoutBtn");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      localStorage.removeItem("customer");
-      alert("Logged out!");
-      window.location.href = "login.html";
-    });
-  }
-
-  // ✅ Load dashboard data
-  loadDashboardStats();
+document.addEventListener("DOMContentLoaded", () => {
+  loadStats();
   loadRecentProducts();
   loadRecentCategories();
 });
 
-// ======================
-// 1️⃣ Load Stats
-// ======================
-async function loadDashboardStats() {
+async function loadStats() {
   try {
-    const res = await fetch(API_STATS);
+    const res = await fetch(`${BASE_API}/get_stats.php`);
     const data = await res.json();
-    console.log("Stats API:", data);
 
     if (!res.ok || !data.success) throw new Error(data.error || "Failed to load stats");
 
-    document.getElementById("totalUsers").textContent = data.users;
-    document.getElementById("totalProducts").textContent = data.products;
-    document.getElementById("totalCategories").textContent = data.categories;
-    document.getElementById("totalOrders").textContent = data.orders;
-
+    document.getElementById("totalUsers").textContent = data.users || 0;
+    document.getElementById("totalProducts").textContent = data.products || 0;
+    document.getElementById("totalCategories").textContent = data.categories || 0;
+    document.getElementById("totalOrders").textContent = data.orders || 0;
   } catch (err) {
-    console.error("Dashboard stats load error:", err);
-    ["totalUsers", "totalProducts", "totalCategories", "totalOrders"].forEach(
-      (id) => (document.getElementById(id).textContent = "Error")
-    );
-    alert("Error loading dashboard stats — check backend log");
+    console.error("Stats error:", err);
+    document.querySelectorAll(".stat-value").forEach((el) => (el.textContent = "Error"));
   }
 }
 
-// ======================
-// 2️⃣ Load Recent Products
-// ======================
+// ✅ Load recent products
 async function loadRecentProducts() {
-  const tbody = document.getElementById("recentProducts");
-  if (!tbody) return;
-  tbody.innerHTML = "<tr><td colspan='6'>Loading...</td></tr>";
-
   try {
-    const res = await fetch(API_PRODUCTS);
+    const res = await fetch(`${BASE_API}/get_products.php`);
     const data = await res.json();
+    if (!res.ok || !data.success) throw new Error(data.error || "Failed");
 
-    if (!res.ok || !data.success) throw new Error(data.error || "Failed to load products");
-
-    const products = data.products.slice(0, 5);
-    if (!products.length) {
+    const tbody = document.getElementById("recentProducts");
+    const prods = data.products.slice(0, 5);
+    if (!prods.length) {
       tbody.innerHTML = "<tr><td colspan='6'>No products found</td></tr>";
       return;
     }
 
-    tbody.innerHTML = products
+    tbody.innerHTML = prods
       .map(
         (p) => `
-        <tr>
-          <td>${p.id}</td>
-          <td><img src="http://localhost/flipcart/backend/uploads/${p.image}" width="50" height="50"></td>
-          <td>${p.name}</td>
-          <td>${p.category}</td>
-          <td>₹${p.price}</td>
-          <td>${p.stock}</td>
-        </tr>`
+      <tr>
+        <td>${p.id}</td>
+        <td><img src="http://localhost/flipcart/backend/uploads/${p.image}" width="60" height="60" style="border-radius:6px;"></td>
+        <td>${p.name}</td>
+        <td>${p.category}</td>
+        <td>₹${p.price}</td>
+        <td>${p.stock ?? 0}</td>
+      </tr>`
       )
       .join("");
   } catch (err) {
-    console.error(err);
-    tbody.innerHTML = "<tr><td colspan='6'>Error loading data</td></tr>";
+    console.error("Recent products error:", err);
+    document.getElementById("recentProducts").innerHTML =
+      "<tr><td colspan='6'>Error loading data</td></tr>";
   }
 }
 
-// ======================
-// 3️⃣ Load Recent Categories
-// ======================
+// ✅ Load recent categories (with icons)
 async function loadRecentCategories() {
-  const tbody = document.getElementById("recentCategories");
-  if (!tbody) return;
-  tbody.innerHTML = "<tr><td colspan='4'>Loading...</td></tr>";
-
   try {
-    const res = await fetch(API_CATEGORIES);
+    const res = await fetch(`${BASE_API}/get_categories.php`);
     const data = await res.json();
-
     if (!res.ok || !data.success) throw new Error(data.error || "Failed to load categories");
 
+    const tbody = document.getElementById("recentCategories");
     const cats = data.categories.slice(0, 5);
+
     if (!cats.length) {
       tbody.innerHTML = "<tr><td colspan='4'>No categories found</td></tr>";
       return;
@@ -127,17 +80,17 @@ async function loadRecentCategories() {
     tbody.innerHTML = cats
       .map(
         (c) => `
-        <tr>
-          <td>${c.id}</td>
-          <td><img src="http://localhost${c.icon_url}" width="40" height="40" style="border-radius:4px;"></td>
-
-          <td>${c.name}</td>
-          <td>${c.created_at}</td>
-        </tr>`
+      <tr>
+        <td>${c.id}</td>
+        <td><img src="${c.icon_url}" width="45" height="45" style="border-radius:8px;"></td>
+        <td>${c.name}</td>
+        <td>${c.created_at}</td>
+      </tr>`
       )
       .join("");
   } catch (err) {
-    console.error(err);
-    tbody.innerHTML = "<tr><td colspan='4'>Error loading data</td></tr>";
+    console.error("Recent categories error:", err);
+    document.getElementById("recentCategories").innerHTML =
+      "<tr><td colspan='4'>Error loading data</td></tr>";
   }
 }
